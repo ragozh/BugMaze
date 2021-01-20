@@ -7,8 +7,11 @@ public class Map : MonoBehaviour
     [SerializeField] private Transform _horizontalLine = default;
     [SerializeField] private Transform _verticalLine = default;
     [SerializeField] private Transform _tutorial = default;
+    [SerializeField] private DataStorage _storage = default;
+    private MapData _data;
     private List<Stage> _listStage;
     private List<Stage> _unlockedStages;
+    private int _stageUnlocked = 0;
     private bool _isRight = true;
     private float _horizontalDistance = 4f / 3f;
     private float _verticalDistance = 3f / 2f;
@@ -17,7 +20,9 @@ public class Map : MonoBehaviour
     {
         _listStage = new List<Stage>();
         _unlockedStages = new List<Stage>();
+        _data = new MapData();
         GenerateMap();
+
     }
 
     private void GenerateMap()
@@ -91,17 +96,66 @@ public class Map : MonoBehaviour
 
     public void RandomStage()
     {
-        var stageUnlocked = Random.Range(1, 999);
-        Debug.Log(stageUnlocked);;
-        for (int i = 0; i < stageUnlocked; i++)
+        Reset();
+        _stageUnlocked = Random.Range(1, 15);
+        Debug.Log(_stageUnlocked);
+        UnlockStages(_stageUnlocked);
+
+        for (int i = 0; i < _unlockedStages.Count; i++)
         {
-            _listStage[i].DisableLock();
-            _unlockedStages.Add(_listStage[i]);
+            _data.mapStars.Add(_unlockedStages[i].Star);
+        }
+    }
+
+    private void UnlockStages(int indexToUnlock)
+    {
+        for (int i = 0; i < indexToUnlock - 1; i++)
+        {
+            UnlockStage(i);
         }
         foreach (var item in _unlockedStages)
         {
             var star = Random.Range(1, 4);
-            item.SetStar(star);
+            item.Star = star;
         }
+        UnlockStage(indexToUnlock - 1); // Unlock next stage
+    }
+    private void UnlockStage(int stageIndex)
+    {
+        if (stageIndex < 0 || stageIndex > _listStage.Count)
+            return;
+        _listStage[stageIndex].DisableLock();
+        _unlockedStages.Add(_listStage[stageIndex]);
+    }
+    public void Save()
+    {
+        _storage.Save(_data);
+        Debug.Log("Save Done");
+    }
+    public void Load()
+    {
+        Reset();
+        _storage.Load(_data);
+        Debug.Log(_data.mapStars.Count);
+        for (int i = 0; i < _data.mapStars.Count - 1; i++)
+        {
+            UnlockStage(i);
+        }
+        for (int i = 0; i < _unlockedStages.Count; i++)
+        {
+            _unlockedStages[i].Star = _data.mapStars[i];
+        }
+        UnlockStage(_data.mapStars.Count - 1);        
+        Debug.Log("Load Done");
+    }
+    public void Reset()
+    {
+        foreach (var item in _unlockedStages)
+        {
+            item.Star = 0;
+            item.EnableLock();
+        }
+        _data.ClearOldData();
+        _unlockedStages.Clear();
     }
 }
