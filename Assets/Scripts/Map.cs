@@ -54,7 +54,6 @@ public class Map : MonoBehaviour
         stage.transform.SetParent(transform);
         stage.name = "Stage " + i;
         stage.SetLevelLabel(i);
-        //var stagePosX = _tutorial.position.x + _horizontalDistance * column;
         var stagePosX = _isRight ?
             _tutorial.position.x + _horizontalDistance * column:
             _tutorial.position.x + _horizontalDistance * (3 - column);
@@ -97,8 +96,7 @@ public class Map : MonoBehaviour
     public void RandomStage()
     {
         Reset();
-        _stageUnlocked = Random.Range(1, 15);
-        Debug.Log(_stageUnlocked);
+        _stageUnlocked = Random.Range(1, 1000);
         UnlockStages(_stageUnlocked);
 
         for (int i = 0; i < _unlockedStages.Count; i++)
@@ -118,7 +116,7 @@ public class Map : MonoBehaviour
             var star = Random.Range(1, 4);
             item.Star = star;
         }
-        UnlockStage(indexToUnlock - 1); // Unlock next stage
+        UnlockStage(indexToUnlock - 1); // just unlock for next play
     }
     private void UnlockStage(int stageIndex)
     {
@@ -130,13 +128,11 @@ public class Map : MonoBehaviour
     public void Save()
     {
         _storage.Save(_data);
-        Debug.Log("Save Done");
     }
     public void Load()
     {
         Reset();
         _storage.Load(_data);
-        Debug.Log(_data.mapStars.Count);
         for (int i = 0; i < _data.mapStars.Count - 1; i++)
         {
             UnlockStage(i);
@@ -146,7 +142,6 @@ public class Map : MonoBehaviour
             _unlockedStages[i].Star = _data.mapStars[i];
         }
         UnlockStage(_data.mapStars.Count - 1);        
-        Debug.Log("Load Done");
     }
     public void Reset()
     {
