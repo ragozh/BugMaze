@@ -589,6 +589,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5556954332152002171}
   - component: {fileID: 7546595847552791714}
+  - component: {fileID: 6025648744378549761}
   m_Layer: 0
   m_Name: Stage
   m_TagString: Untagged
@@ -633,3 +634,30 @@ MonoBehaviour:
   - {fileID: 5556954331580770181}
   - {fileID: 5556954331652090807}
   _lock: {fileID: 5556954330544852017}
+  _player: {fileID: 11400000, guid: 4592c475412108c45a4ae7e0fc689103, type: 2}
+--- !u!61 &6025648744378549761
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5556954332152002170}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1}
+  m_EdgeRadius: 0

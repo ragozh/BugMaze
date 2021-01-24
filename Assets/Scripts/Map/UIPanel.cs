@@ -44,7 +44,10 @@ public class UIPanel : MonoBehaviour
         else if (Input.GetMouseButton(0))
         {
             if (EventSystem.current.IsPointerOverGameObject())
+            {
+                Debug.Log("UI");
                 return;
+            }
             OnContinueDrag(worldPosition);
         }
     }

@@ -5,8 +5,14 @@ public class Stage : MonoBehaviour
 {
     [SerializeField] GameObject[] _stars = default;
     [SerializeField] GameObject _lock = default;
+    [SerializeField] PlayerSO _player = default;
+    private bool _touchDown = false;
+    private float _nextTime;
+    private int _level = -1;
     private int _star = 0;    
     private TextMeshPro _levelLabel;
+    private float _delayTouch = 0.5f;
+
     public int Star
     {
         get => _star;
@@ -20,7 +26,18 @@ public class Stage : MonoBehaviour
         }
     }
     private void Awake() => _levelLabel = GetComponentInChildren<TextMeshPro>();
-    public void SetLevelLabel(int level) => _levelLabel.text = level + "";
+    private void Update()
+    {
+        if (Time.time > _nextTime)
+        {
+            _touchDown = false;
+        }
+    }
+    public void SetLevelLabel(int level)
+    {
+        _levelLabel.text = level + "";
+        _level = level;
+    }
     public void DisableLock() => _lock.SetActive(false);
     public void EnableLock() => _lock.SetActive(true);
     public void ResetStar()
@@ -53,5 +70,15 @@ public class Stage : MonoBehaviour
             return false;
         }
         return true;
+    }
+    private void OnMouseDown()
+    {
+        _touchDown = true;
+        _nextTime = Time.time + _delayTouch;
+    }
+    private void OnMouseUp()
+    {
+        if (_touchDown)
+            _player.currentLevel = _level;
     }
 }
