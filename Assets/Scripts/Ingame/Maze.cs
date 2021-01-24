@@ -25,7 +25,7 @@ public class Maze : MonoBehaviour
         _doneCell = new List<Cell>();
         _cells = new Cell[10, 13];
         _levelLabel.text = "No. " + _player.currentLevel;
-        _randomStepToGenerateGate = Random.Range(30, 60);
+        _randomStepToGenerateGate = Random.Range(5, 60);
         for (int j = 0; j < _row; j++)
         {
             for (int i = 0; i < _column; i++)

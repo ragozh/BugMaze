@@ -80,11 +80,18 @@ public class Stage : MonoBehaviour
     }
     private void OnMouseUp()
     {
-        if (EventSystem.current.IsPointerOverGameObject() 
-            || EventSystem.current.IsPointerOverGameObject(Input.GetTouch(0).fingerId))
+        if (EventSystem.current.IsPointerOverGameObject())
         {
             //Debug.Log("UI");
             return;
+        }
+        if (Input.touchCount > 0)
+        {
+            if (EventSystem.current.IsPointerOverGameObject(Input.GetTouch(0).fingerId))
+            {
+                //Debug.Log("UI");
+                return;
+            }
         }
         if (_touchDown && !_lock.activeSelf)
         {

@@ -15,9 +15,7 @@ public class UIPanel : MonoBehaviour
     private void Update()
     {
         TouchController();
-#if UNTIY_EDITOR
         MouseController();
-#endif
     }
     private void TouchController()
     {
@@ -37,12 +35,12 @@ public class UIPanel : MonoBehaviour
             }
         }
     }
-#if UNTIY_EDITOR
     private void MouseController()
     {
         var worldPosition = _mainCamera.ScreenToWorldPoint(Input.mousePosition) + Vector3.forward * 10f;
         if (Input.GetMouseButtonDown(0))
         {
+            Debug.Log("Mouse click");
             OnBeginDrag(worldPosition);
         }
         else if (Input.GetMouseButton(0))
@@ -55,7 +53,6 @@ public class UIPanel : MonoBehaviour
             OnContinueDrag(worldPosition);
         }
     }
-#endif
     private void OnBeginDrag(Vector3 worldPosition)
     {
         _startPosition = worldPosition;
