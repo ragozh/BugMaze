@@ -6,6 +6,9 @@ public class Bug : MonoBehaviour
 {
     [SerializeField] private float _moveSpeed = 1.5f;
     private LineRenderer _line;
+    private Coroutine _moveCoroutine;
+    private bool _moving;
+
     private void Awake()
     {
         _line = GetComponent<LineRenderer>();
@@ -32,7 +35,20 @@ public class Bug : MonoBehaviour
     }
     public void Move(Cell[] path)
     {
-        StartCoroutine(MoveToCell(path));
+        if (!_moving)
+        {
+            //Debug.Log("Start moving");
+            _moveCoroutine = StartCoroutine(MoveToCell(path));
+            _moving = true;
+        }
+    }
+    public void Reset(Cell startCell)
+    {
+        StopAllCoroutines();
+        _moving = false;
+        transform.SetParent(startCell.transform);
+        transform.position = startCell.transform.position;
+        _line.positionCount = 0;
     }
     private IEnumerator MoveToCell(Cell[] path)
     {
@@ -47,8 +63,8 @@ public class Bug : MonoBehaviour
             {
                 yield return StartCoroutine(HorizontalMove(path[i]));
             }
-            path[i] = null;
         }
+        _moving = false;
     }
 
     private IEnumerator HorizontalMove(Cell cell)

@@ -1,12 +1,16 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class Maze : MonoBehaviour
 {
     [SerializeField] private Cell _cellPrefab = default;
     [SerializeField] private Bug _bugPrefab = default;
     [SerializeField] private Target _gate = default;
+    [SerializeField] private Text _levelLabel = default;
+    [SerializeField] private PlayerSO _player = default;
      private Bug _bug;
     private Cell[,] _cells;
     private Stack<Cell> _visitedCell;
@@ -19,20 +23,25 @@ public class Maze : MonoBehaviour
     {
         _visitedCell = new Stack<Cell>();
         _doneCell = new List<Cell>();
-        _cells = new Cell[10,13];
+        _cells = new Cell[10, 13];
+        _levelLabel.text = "No. " + _player.currentLevel;
         _randomStepToGenerateGate = Random.Range(30, 60);
         for (int j = 0; j < _row; j++)
         {
             for (int i = 0; i < _column; i++)
             {
                 CreateCell(i, j);
-            } 
+            }
         }
         _bug = Instantiate(_bugPrefab);
-        _bug.transform.SetParent(_cells[0, 0].transform);
-        _bug.transform.position = _cells[0, 0].transform.position;
+        Retry();
         GenerateMaze();
     }
+    public void Retry()
+    {        
+        _bug.Reset(_cells[0, 0]);
+    }
+
     private void CreateCell(int i, int j)
     {
         var cell = Instantiate(_cellPrefab);
@@ -121,13 +130,10 @@ public class Maze : MonoBehaviour
             randomCell = unVisitedCells[Random.Range(0, unVisitedCells.Count)];
         return unVisitedCells.Count == 0;
     }
-    public void ShowHint()
+    public void ShowHint() => _bug.ShowHint(_path);
+    public void AutoMove() => _bug.Move(_path);
+    public void ReturnToMap()
     {
-        _bug.ShowHint(_path);
-    }
-    [ContextMenu("AutoMove")]
-    public void AutoMove()
-    {
-        _bug.Move(_path);
+        SceneManager.LoadScene("Map");
     }
 }

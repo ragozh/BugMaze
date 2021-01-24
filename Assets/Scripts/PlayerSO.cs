@@ -4,4 +4,5 @@
 public class PlayerSO : ScriptableObject
 {
     public int currentLevel;
+    public int starCount;
 }

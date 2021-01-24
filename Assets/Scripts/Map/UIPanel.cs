@@ -14,8 +14,10 @@ public class UIPanel : MonoBehaviour
     }
     private void Update()
     {
-        //TouchController();
+        TouchController();
+#if UNTIY_EDITOR
         MouseController();
+#endif
     }
     private void TouchController()
     {
@@ -26,7 +28,8 @@ public class UIPanel : MonoBehaviour
             {   
                 OnBeginDrag(worldPosition);
             }
-            else if (Input.GetTouch(0).phase == TouchPhase.Moved)
+            else if (Input.GetTouch(0).phase == TouchPhase.Moved 
+                || Input.GetTouch(0).phase == TouchPhase.Stationary)
             {
                 if (EventSystem.current.IsPointerOverGameObject(Input.GetTouch(0).fingerId))
                     return;
@@ -34,6 +37,7 @@ public class UIPanel : MonoBehaviour
             }
         }
     }
+#if UNTIY_EDITOR
     private void MouseController()
     {
         var worldPosition = _mainCamera.ScreenToWorldPoint(Input.mousePosition) + Vector3.forward * 10f;
@@ -45,13 +49,13 @@ public class UIPanel : MonoBehaviour
         {
             if (EventSystem.current.IsPointerOverGameObject())
             {
-                Debug.Log("UI");
+                //Debug.Log("UI");
                 return;
             }
             OnContinueDrag(worldPosition);
         }
     }
-
+#endif
     private void OnBeginDrag(Vector3 worldPosition)
     {
         _startPosition = worldPosition;

@@ -1866,6 +1866,8 @@ MonoBehaviour:
   _verticalLine: {fileID: 8199970000746548085, guid: b145f1354ab794a43983a07f17697923, type: 3}
   _tutorial: {fileID: 301462641}
   _storage: {fileID: 1947343609}
+  _player: {fileID: 11400000, guid: 4592c475412108c45a4ae7e0fc689103, type: 2}
+  _starText: {fileID: 1995502077}
 --- !u!1 &1995502075
 GameObject:
   m_ObjectHideFlags: 0
@@ -1936,7 +1938,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 2997
+  m_Text: 9999
 --- !u!222 &1995502078
 CanvasRenderer:
   m_ObjectHideFlags: 0

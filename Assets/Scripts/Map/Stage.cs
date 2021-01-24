@@ -1,5 +1,7 @@
 ﻿using TMPro;
 using UnityEngine;
+using UnityEngine.EventSystems;
+using UnityEngine.SceneManagement;
 
 public class Stage : MonoBehaviour
 {
@@ -78,7 +80,16 @@ public class Stage : MonoBehaviour
     }
     private void OnMouseUp()
     {
-        if (_touchDown)
+        if (EventSystem.current.IsPointerOverGameObject() 
+            || EventSystem.current.IsPointerOverGameObject(Input.GetTouch(0).fingerId))
+        {
+            //Debug.Log("UI");
+            return;
+        }
+        if (_touchDown && !_lock.activeSelf)
+        {
             _player.currentLevel = _level;
+            SceneManager.LoadScene("Ingame");
+        }
     }
 }

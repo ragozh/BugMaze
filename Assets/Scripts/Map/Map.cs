@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Map : MonoBehaviour
 {
@@ -8,6 +9,8 @@ public class Map : MonoBehaviour
     [SerializeField] private Transform _verticalLine = default;
     [SerializeField] private Transform _tutorial = default;
     [SerializeField] private DataStorage _storage = default;
+    [SerializeField] private PlayerSO _player = default;
+    [SerializeField] private Text _starText = default;
     private MapData _data;
     private List<Stage> _listStage;
     private List<Stage> _unlockedStages;
@@ -22,9 +25,12 @@ public class Map : MonoBehaviour
         _unlockedStages = new List<Stage>();
         _data = new MapData();
         GenerateMap();
-
+        Load();
     }
-
+    private void Update()
+    {
+        _starText.text = _player.starCount + "";
+    }
     private void GenerateMap()
     {
         var column = 0;
@@ -102,6 +108,7 @@ public class Map : MonoBehaviour
         for (int i = 0; i < _unlockedStages.Count; i++)
         {
             _data.mapStars.Add(_unlockedStages[i].Star);
+            _player.starCount += _unlockedStages[i].Star;
         }
     }
 
@@ -140,11 +147,13 @@ public class Map : MonoBehaviour
         for (int i = 0; i < _unlockedStages.Count; i++)
         {
             _unlockedStages[i].Star = _data.mapStars[i];
+            _player.starCount += _unlockedStages[i].Star;
         }
         UnlockStage(_data.mapStars.Count - 1);        
     }
     public void Reset()
     {
+        _player.starCount = 0;
         foreach (var item in _unlockedStages)
         {
             item.Star = 0;

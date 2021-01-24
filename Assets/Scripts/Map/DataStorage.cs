@@ -8,7 +8,7 @@ public class DataStorage : MonoBehaviour
     private void Awake()
     {
         _savePath = Path.Combine(Application.persistentDataPath, "map_data");
-        Debug.Log(_savePath);
+        //Debug.Log(_savePath);
     }
     public void Save(MapData mapData)
     {
